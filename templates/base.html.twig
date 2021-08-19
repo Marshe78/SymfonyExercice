@@ -1,19 +1,50 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{# Run `composer require symfony/webpack-encore-bundle`
+																																										           and uncomment the following Encore helpers to start using Symfony UX #}
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+		{% block stylesheets %}
+			{#{{ encore_entry_link_tags('app') }}#}
+		{% endblock %}
+
+		{% block javascripts %}
+			{#{{ encore_entry_script_tags('app') }}#}
+		{% endblock %}
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-light bg-light">
+				<a href="/" class="navbar-brand">Home</a>
+				{% if app.user %}
+					{# Si l'utilisateur est authentifié #}
+					<a class="btn btn-outline-info" href="{{ path('profil') }}">Page profil</a>
+					{% if is_granted('ROLE_ADMIN') %}
+						{# Si l'utilisateur est authentifié et qu'il est admin #}
+						<a class="btn btn-outline-warning" href="{{ path('admin') }}">Page admin</a>
+					{% endif %}
+					<div>
+						Bonjour
+						{{ app.user.username }}
+						<a class="btn btn-sm btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+					</div>
+					<a class="btn btn-outline-warning" href="{{ path('panier_index') }}">Panier</a>
+
+				{% else %}
+					<div>
+						<a class="btn btn-sm btn-primary" href="{{ path('app_register') }}">S'inscrire</a>
+						<a class="btn btn-sm btn-success" href="{{ path('app_login') }}">Se connecter</a>
+					</div>
+				{% endif %}
+			</nav>
+		</header>
+
+	</body>
+</html></li></body></html></li><main class=" container">{% for type, messages in app.flashes %}{% for msg in messages %}<p class="alert alert-{{type}}">{{msg}}</p>{% endfor %}{% endfor %}{% block body %}{% endblock %}</main></body></html>
