@@ -4,22 +4,39 @@ namespace App\Controller;
 
 use App\Entity\Panier;
 use App\Form\PanierType;
+use App\Entity\ContenuPanier;
 use App\Repository\PanierRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/panier")
  */
 class PanierController extends AbstractController
 {
+    
     /**
-     * @Route("/panier", name="panier_index", methods={"GET"})
+     * @var Security
+     */
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+    }
+
+    /**
+     * @Route("/", name="panier_index", methods={"GET"})
+     * 
      */
     public function index(PanierRepository $panierRepository): Response
     {
+        //$test = $this->getContenuPaniers();
+       // dd($test);
         return $this->render('panier/index.html.twig', [
             'paniers' => $panierRepository->findAll(),
         ]);
@@ -30,9 +47,14 @@ class PanierController extends AbstractController
      */
     public function new(Request $request): Response
     {
+       
         $panier = new Panier();
-        $form = $this->createForm(PanierType::class, $panier);
-        $form->handleRequest($request);
+       $form = $this->createForm(PanierType::class, $panier);
+       $form->handleRequest($request);
+        // On va chercher le user 
+        $panier->setUtilisateur($this->security->getUser());
+       // $d = date("Y-m-d H:i:s");
+        //$panier->setDateAchat(\DateTime::createFromFormat('Y-m-d H:i:s', $d));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -85,6 +107,14 @@ class PanierController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$panier->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $contenu_panier = $entityManager->getRepository(ContenuPanier::class)
+            ->findBy(['Panier'=>$panier]);
+
+            foreach($contenu_panier as $c){
+                $entityManager->remove($c);
+            }
+
             $entityManager->remove($panier);
             $entityManager->flush();
         }

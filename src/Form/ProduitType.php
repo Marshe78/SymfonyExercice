@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ProduitType extends AbstractType
 {
@@ -17,7 +18,7 @@ class ProduitType extends AbstractType
             ->add('Prix')
             ->add('Stock')
             ->add('Photo')
-            ->add('contenuPanier')
+            ->add('Ajout', SubmitType::class)
         ;
     }
 

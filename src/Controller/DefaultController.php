@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Form\ProduitType;
 use App\Entity\Produit;
+use App\Entity\ContenuPanier;
+use App\Form\ContenuPanierType;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,9 +32,10 @@ class DefaultController extends AbstractController
             $em->persist($produit);
             $em->flush();
 
-            $this->addFlash('success', $t->trans('note.added'));
+            $this->addFlash('success','Ajouté');
         }
 
+        //dd($produits);
         return $this->render('default/index.html.twig', [
             'produits' => $produits,
             'ajout_form' => $form->createView(),

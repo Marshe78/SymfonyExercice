@@ -13,8 +13,7 @@ class ContenuPanierType extends AbstractType
     {
         $builder
             ->add('Quantite')
-            ->add('Date')
-            ->add('Panier')
+          
         ;
     }
 

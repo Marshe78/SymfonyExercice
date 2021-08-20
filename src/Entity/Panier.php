@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Security\Core\User\User as user;
 use App\Repository\PanierRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +32,13 @@ class Panier
      * @ORM\Column(type="boolean")
      */
     private $Etat;
+    
+
+    public function __construct()
+    {
+        $this->dateAchat = new \DateTime();
+        $this->Etat = false;
+    }
 
     public function getId(): ?int
     {
@@ -71,5 +79,10 @@ class Panier
         $this->Etat = $Etat;
 
         return $this;
+    }
+    public function __toString() {
+       
+        return $this->Utilisateur;
+        
     }
 }

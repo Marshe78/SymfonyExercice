@@ -1,0 +1,7 @@
+error:
+  matiere:
+    minLength: Le sujet doit faire au moins un caractère
+    maxLength: Le sujet doit faire moins de 256 caractères
+    coef: Le coefficient doit être un entier numérique
+  note:
+    range: La note doit etre comprise entre 0 et 20

@@ -10,7 +10,7 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Id</th>
+
 					<th>Email</th>
 					<th>Roles</th>
 					<th>Password</th>
@@ -20,7 +20,7 @@
 			<tbody>
 				{% for utilisateur in utilisateurs %}
 					<tr>
-						<td>{{ utilisateur.id }}</td>
+
 						<td>{{ utilisateur.email }}</td>
 						<td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
 						<td>{{ utilisateur.password }}</td>

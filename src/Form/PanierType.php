@@ -12,7 +12,7 @@ class PanierType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateAchat')
+            
             ->add('Etat')
             ->add('Utilisateur')
         ;

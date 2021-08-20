@@ -26,10 +26,23 @@
 					<td>{{ produit.Description }}</td>
 					<td>{{ produit.Prix }}</td>
 					<td>{{ produit.Stock }}</td>
-					<td>{{ produit.Photo }}</td>
 					<td>
-						<a href="{{ path('produit_show', {'id': produit.id}) }}">show</a>
-						<a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
+						<img width="50" src="{{ asset("images/") ~ produit.Photo }}.jpg" alt="{{ produit.Photo }}"/>
+						{{ produit.Photo }}</td>
+					<td>
+						<div class="btn">
+							<a href="{{ path('produit_show', {'id': produit.id}) }}">Voir
+							</a>
+						</div>
+						{% if is_granted('ROLE_ADMIN') %}
+							<div class="btn">
+								<a href="{{ path('produit_edit', {'id': produit.id}) }}">Editer</a>
+							</div>
+						{% endif %}
+						<div class="btn">
+							<a href="{{ path('contenu_panier_new', {'id': produit.id} ) }}">Ajout</a>
+
+						</div>
 					</td>
 				</tr>
 			{% else %}
@@ -38,10 +51,5 @@
 				</tr>
 			{% endfor %}
 		</tbody>
-	</table>
-	{# Si l'utilisateur est authentifié et qu'il est admin #}
-	{% if is_granted('ROLE_ADMIN') %}
-		<a href="{{ path('produit_new') }}">Create new</a>
-		{{form(ajout_form)}}{% endif %}
-
-	{% endblock %}
+	</td>
+</tr></tbody></tbody></table>{# Si l'utilisateur est authentifié et qu'il est admin #}{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('produit_new') }}">Ajouter un produit</a>{{form(ajout_form)}}{% endif %}{% endblock %}

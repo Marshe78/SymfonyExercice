@@ -36,6 +36,15 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
         $this->_em->flush();
     }
 
+    public function getPanier(){
+        $qb = $this->createQueryBuilder('c') // Récupère toute la table
+            ->orderBy('c.id', 'DESC') // Tri les résultats
+            ->where('utilisateur_id = '.$user.id);
+
+        $query = $qb->getQuery(); // Convertit la DQL en SQL
+        return $query->execute(); // Execute la requete
+    }
+
     // /**
     //  * @return Utilisateur[] Returns an array of Utilisateur objects
     //  */

@@ -1,0 +1,7 @@
+error:
+  matiere:
+    minLength: The subject have to be 1 caractere long
+    maxLength: The subject have to be less than 256 caracteres long
+    coef: The coefficient have to be integer
+  note:
+    range: The mark have to be between 0 and 20

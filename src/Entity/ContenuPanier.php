@@ -19,13 +19,9 @@ class ContenuPanier
      */
     private $id;
 
+ 
     /**
-     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="contenuPanier")
-     */
-    private $Produit;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Panier::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Panier::class, cascade={"persist", "remove"})
      */
     private $Panier;
 
@@ -39,46 +35,19 @@ class ContenuPanier
      */
     private $Date;
 
-    public function __construct()
-    {
-        $this->Produit = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="contenu_panier")
+     */
+    private $produit;
+
+ 
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection|Produit[]
-     */
-    public function getProduit(): Collection
-    {
-        return $this->Produit;
-    }
-
-    public function addProduit(Produit $produit): self
-    {
-        if (!$this->Produit->contains($produit)) {
-            $this->Produit[] = $produit;
-            $produit->setContenuPanier($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->Produit->removeElement($produit)) {
-            // set the owning side to null (unless already changed)
-            if ($produit->getContenuPanier() === $this) {
-                $produit->setContenuPanier(null);
-            }
-        }
-
-        return $this;
-    }
-
+ 
     public function getPanier(): ?Panier
     {
         return $this->Panier;
@@ -111,6 +80,23 @@ class ContenuPanier
     public function setDate(\DateTimeInterface $Date): self
     {
         $this->Date = $Date;
+
+        return $this;
+    }
+    public function __toString()
+    {
+
+        return $this->Produit->getNom();
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produit $produit): self
+    {
+        $this->produit = $produit;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,9 +45,16 @@ class Produit
     private $Photo;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ContenuPanier::class, inversedBy="Produit")
+     * @ORM\OneToMany(targetEntity=ContenuPanier::class, mappedBy="produit")
      */
-    private $contenuPanier;
+    private $contenu_panier;
+
+    public function __construct()
+    {
+        $this->contenu_panier = new ArrayCollection();
+    }
+
+
 
     public function getId(): ?int
     {
@@ -112,15 +121,34 @@ class Produit
         return $this;
     }
 
-    public function getContenuPanier(): ?ContenuPanier
+    /**
+     * @return Collection|ContenuPanier[]
+     */
+    public function getContenuPanier(): Collection
     {
-        return $this->contenuPanier;
+        return $this->contenu_panier;
     }
 
-    public function setContenuPanier(?ContenuPanier $contenuPanier): self
+    public function addContenuPanier(ContenuPanier $contenuPanier): self
     {
-        $this->contenuPanier = $contenuPanier;
+        if (!$this->contenu_panier->contains($contenuPanier)) {
+            $this->contenu_panier[] = $contenuPanier;
+            $contenuPanier->setProduit($this);
+        }
 
         return $this;
     }
+
+    public function removeContenuPanier(ContenuPanier $contenuPanier): self
+    {
+        if ($this->contenu_panier->removeElement($contenuPanier)) {
+            // set the owning side to null (unless already changed)
+            if ($contenuPanier->getProduit() === $this) {
+                $contenuPanier->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
